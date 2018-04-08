@@ -1,0 +1,27 @@
+{
+    "name": "AdamLutka/PhpEnum",
+    "description": "PHP implementation of enum type",
+    "type": "library",
+    "keywords": ["enum"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Lutka",
+            "email": "adam.lutka@gmail.com",
+            "role": "Developer"
+        }
+    ],
+	"autoload": {
+		"psr-4": {
+			"AL\\PhpEnum\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"AL\\PhpEnum\\Tests\\": "tests/"
+		}
+	},
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    }
+}
