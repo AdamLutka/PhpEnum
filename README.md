@@ -14,14 +14,16 @@ require_once('vendor/autoload.php');
 final class TypeEnum extends \AL\PhpEnum\Enum {}
 
 
-var_dump((string)TypeEnum::TYPE_2());                 // string(6) "TYPE_2"
-var_dump(TypeEnum::TYPE_2()->getValue());             // string(6) "TYPE_2"
-var_dump(TypeEnum::TYPE_1()->getOrder());             // int(0)
-var_dump(TypeEnum::TYPE_2()->getOrder());             // int(1)
-var_dump(TypeEnum::TYPE_2() === TypeEnum::TYPE_2());  // bool(true)
-var_dump(TypeEnum::TYPE_2() == TypeEnum::TYPE_2());   // bool(true)
-var_dump(TypeEnum::TYPE_1() === TypeEnum::TYPE_2());  // bool(false)
-var_dump(TypeEnum::TYPE_1() == TypeEnum::TYPE_2());   // bool(false)
+var_dump((string)TypeEnum::TYPE_2());                        // string(6) "TYPE_2"
+var_dump(TypeEnum::TYPE_2()->getValue());                    // string(6) "TYPE_2"
+var_dump(TypeEnum::TYPE_1()->getOrder());                    // int(0)
+var_dump(TypeEnum::TYPE_2()->getOrder());                    // int(1)
+var_dump(TypeEnum::TYPE_2() === TypeEnum::TYPE_2());         // bool(true)
+var_dump(TypeEnum::TYPE_2() == TypeEnum::TYPE_2());          // bool(true)
+var_dump(TypeEnum::TYPE_1() === TypeEnum::TYPE_2());         // bool(false)
+var_dump(TypeEnum::TYPE_1() == TypeEnum::TYPE_2());          // bool(false)
+var_dump(TypeEnum::parse('TYPE_2') === TypeEnum::TYPE_2());  // bool(true)
+var_dump(TypeEnum::tryParse('NOT_EXIST'));                   // NULL
 ```
 
 ## Getting Started
