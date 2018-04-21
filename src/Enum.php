@@ -67,23 +67,17 @@ abstract class Enum
 	}
 
 
+	public static function exists(string $value): bool
+	{
+		$values = static::getEnumValues(static::class);
+
+		return isset($values[$value]);
+	}
+
+
 	public static function tryParse(string $value): ?Enum
 	{
-		$class = static::class;
-
-		if (!isset(self::$values[$class])) {
-			self::$values[$class] = static::getEnumValues($class);
-		}
-
-		if (!isset(self::$values[$class][$value])) {
-			 return null;
-		}
-
-		if (!isset(self::$instances[$class][$value])) {
-			self::$instances[$class][$value] = new $class(self::$values[$class][$value], $value);
-		}
-
-		return self::$instances[$class][$value];
+		return static::exists($value) ? static::getInstance(static::class, $value) : null;
 	}
 	
 	public static function parse(string $value): Enum
@@ -99,10 +93,31 @@ abstract class Enum
 	}
 
 
+	public static function tryInOrder(int $order): ?Enum
+	{
+		$class = static::class;
+		$values = array_keys(static::getEnumValues($class));
+
+		return count($values) > $order && $order >= 0 ? static::getInstance($class, $values[$order]) : null;
+	}
+
+	public static function inOrder(int $order): Enum
+	{
+		$instance = static::tryInOrder($order);
+		if ($instance === null) {
+			$class = static::class;
+			throw new EnumException("$class order out of range: $order");
+		}
+		else {
+			return $instance;
+		}
+	}
+
+
 	/**
 	 * @return string[]
 	 */
-	protected static function getEnumValues(string $class): array
+	protected static function findOutEnumValues(string $class): array
 	{
 		$reflection = new \ReflectionClass($class);
 		$doc = $reflection->getDocComment();
@@ -113,5 +128,27 @@ abstract class Enum
 		preg_match_all("~@method +static +(?:$className|\\\$this) +(\S+)\(\)~", $doc, $matches);
 
 		return array_flip($matches[1]);
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected static function getEnumValues(string $class): array
+	{
+		if (!isset(self::$values[$class])) {
+			self::$values[$class] = static::findOutEnumValues($class);
+		}
+
+		return self::$values[$class];
+	}
+
+	protected static function getInstance(string $class, string $value): ?Enum
+	{
+		if (!isset(self::$instances[$class][$value])) {
+			$values = static::getEnumValues($class);
+			self::$instances[$class][$value] = new $class($values[$value], $value);
+		}
+
+		return self::$instances[$class][$value];
 	}
 }

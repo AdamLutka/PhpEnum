@@ -74,12 +74,53 @@ class EnumTest extends TestCase
 	{
 		$enum = TestedEnum::tryParse('VALUE1');
 		static::assertSame('VALUE1', $enum->getValue());
-		static::assertSame(TestedEnum::VALUE1(), $enum);
+		static::assertSame((string)TestedEnum::VALUE1(), (string)$enum);
 	}
 
 	public function testTryParseUnknown(): void
 	{
 		$enum = TestedEnum::tryParse('NOT_EXIST');
+		static::assertNull($enum);
+	}
+
+
+	public function testInOrder(): void
+	{
+		static::assertSame((string)TestedEnum::VALUE1(), (string)TestedEnum::inOrder(0));
+		static::assertSame((string)TestedEnum::__xxx___(), (string)TestedEnum::inOrder(2));
+	}
+
+	/**
+	 * @expectedException \AL\PhpEnum\EnumException
+	 */
+	public function testInOrderOverflow(): void
+	{
+		TestedEnum::inOrder(3);
+	}
+
+	/**
+	 * @expectedException \AL\PhpEnum\EnumException
+	 */
+	public function testInOrderUnderflow(): void
+	{
+		TestedEnum::inOrder(-1);
+	}
+
+	public function testTryInOrder(): void
+	{
+		static::assertSame((string)TestedEnum::VALUE1(), (string)TestedEnum::tryInOrder(0));
+		static::assertSame((string)TestedEnum::__xxx___(), (string)TestedEnum::tryInOrder(2));
+	}
+
+	public function testTryInOrderOverflow(): void
+	{
+		$enum = TestedEnum::tryInOrder(3);
+		static::assertNull($enum);
+	}
+
+	public function testTryInOrderUnderflow(): void
+	{
+		$enum = TestedEnum::tryInOrder(-1);
 		static::assertNull($enum);
 	}
 
