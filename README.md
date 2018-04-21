@@ -24,6 +24,8 @@ var_dump(TypeEnum::TYPE_1() === TypeEnum::TYPE_2());         // bool(false)
 var_dump(TypeEnum::TYPE_1() == TypeEnum::TYPE_2());          // bool(false)
 var_dump(TypeEnum::parse('TYPE_2') === TypeEnum::TYPE_2());  // bool(true)
 var_dump(TypeEnum::tryParse('NOT_EXIST'));                   // NULL
+var_dump(TypeEnum::inOrder(0) === TypeEnum::TYPE_1());       // bool(true)
+var_dump(TypeEnum::tryInOrder(1000));                        // NULL
 ```
 
 ## Getting Started
