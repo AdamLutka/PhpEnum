@@ -37,7 +37,7 @@ The code needs PHP 7.1 or greater.
 ### Installing
 
 ```
-composer require AdamLutka/PhpEnum
+composer require adam-lutka/php-enum
 ```
 
 ## Running the tests
