@@ -1,5 +1,5 @@
 {
-    "name": "AdamLutka/PhpEnum",
+    "name": "adam-lutka/php-enum",
     "description": "PHP implementation of enum type",
     "type": "library",
     "keywords": ["enum"],
